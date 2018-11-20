@@ -1,18 +1,14 @@
 package assignment;
 
-import UserInterface.LevelGrid;
-
 // This class represents coordinates on the board
 public final class Coordinates {
-    public static LevelGrid levelGrid;
-
     private final int x;
     private final int y;
 
     public Coordinates(int x, int y)
     {
-        assert y >= 0 && y < GameState.ROWS;
-        assert x >= 0 && x < GameState.COLUMNS;
+        //assert y >= 0 && y < GameState.ROWS;
+        //assert x >= 0 && x < GameState.COLUMNS;
 
         this.x = x;
         this.y = y;

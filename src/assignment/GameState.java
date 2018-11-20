@@ -10,22 +10,29 @@ public final class GameState {
     public static final int ROWS = 6;
     public static final int COLUMNS = 10;
 
-    public Player currentPlayer;
+    public int numberOfConnectedPlayers;
+    public static int currentPlayerNum;
 
-    public static Color playerColor1 = Color.red;
-    public static Color playerColor2 = Color.blue;
-    public static Color playerColor3 = Color.green;
-    public static Color playerColor4 = Color.pink;
-    public static Color playerColor5 = Color.yellow;
+    public static Color[] playerColors = {Color.red, Color.blue, Color.green, Color.pink, Color.yellow};
+
+    public static Color currentColor = Color.red;
+    private int[][] board = new int[ROWS][COLUMNS];
 
     public GameState(){
+        numberOfConnectedPlayers = 0;
+    }
+
+    public static void nextPlayer(){
+        currentPlayerNum++;
+        if(currentPlayerNum == playerColors.length)
+            currentPlayerNum = 0;
+        currentColor = playerColors[currentPlayerNum];
     }
 
     // Returns a rectangular matrix of board cells, with six rows and ten columns.
     // Zeros indicate empty cells.
     // Non-zero values indicate stones of the corresponding player.  E.g., 3 means a stone of the third player.
     public int[][] getBoard() {
-        int[][] board = new int[ROWS][COLUMNS];
         return board;
     }
 
@@ -35,7 +42,14 @@ public final class GameState {
     }
 
     // Checks if the specified move is allowed for the given player.
-    public boolean isMoveAllowed(Move move, int player) {
+    public synchronized boolean isMoveAllowed(Coordinates coord, Player player) {
+        System.out.println("test");
+        // If current player's turn and the cell is empty
+        if(player.playerNumber == currentPlayerNum && board[coord.getX()][coord.getY()] == 0){
+            board[coord.getX()][coord.getY()] = player.playerNumber;
+            nextPlayer();
+            return false;
+        }
         return false;
     }
 }

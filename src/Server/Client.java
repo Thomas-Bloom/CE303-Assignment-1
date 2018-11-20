@@ -1,7 +1,9 @@
 package Server;
 
+import UserInterface.LevelGrid;
 import UserInterface.Window;
 import assignment.GameState;
+import javafx.scene.paint.Color;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,11 +11,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
-    private int[][] board = new int[GameState.ROWS][GameState.COLUMNS];
-
     private Socket socket;
     private BufferedReader input;
     private PrintWriter output;
+
+    private Color currentColor;
 
     private Window window = new Window("CE303 Assignment", 6, 10);
 
@@ -32,6 +34,14 @@ public class Client {
             if(response.startsWith("WELCOME")){
                 char num = response.charAt(8);
                 window.setTitle("CE303 Assignment: Player(" + num + ")");
+                window.levelGrid.currentPlayerNum = num;
+            }
+
+            while(true){
+                response = input.readLine();
+                if(response.startsWith("VALID")){
+
+                }
             }
         }
         finally {
