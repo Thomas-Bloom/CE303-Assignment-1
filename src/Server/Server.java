@@ -1,46 +1,40 @@
 package Server;
 
-import assignment.GameState;
+import Utilities.GameState;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Server {
-    public static GameState gameState;
-    private static int[][] board = new int[GameState.ROWS][GameState.COLUMNS];
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(16000);
-        System.out.println("CE303 Server Running");
-        gameState = new GameState();
-
-        for(int x = 0; x < GameState.ROWS; x++){
-            for(int y = 0; y < GameState.COLUMNS; y++){
-                board[x][y] = 0;
-            }
-        }
-
+    public static final int PORT = 17000;
+    public static void main(String[] args) {
         try{
-            while(true){
-                for(int x = 0; x < GameState.ROWS; x++){
-                    for(int y = 0; y < GameState.COLUMNS; y++){
+            ServerSocket serverSocket = new ServerSocket(PORT);
+            System.out.println("Server is now running");
 
-                    }
+            try{
+                // Constantly look for commands coming in
+                while(true){
+                    GameState gameState = new GameState();
+
+                    // Create the player objects
+                    // If a client is present then a new player object is created, otherwise null
+                    Player player0 = new Player(serverSocket.accept(), '0');
+                    Player player1 = new Player(serverSocket.accept(), '1');
+
+                    // Start all the player threads (won't start if they are null)
+                    gameState.incrementPlayerNum();
+                    player0.start();
+
                 }
-                System.out.println("Connected Players: " + gameState.numberOfConnectedPlayers);
-                Player player0 = new Player(serverSocket.accept(), gameState, '0');
-                Player player1 = new Player(serverSocket.accept(), gameState, '1');
-                Player player2 = new Player(serverSocket.accept(), gameState, '2');
-                Player player3 = new Player(serverSocket.accept(), gameState, '3');
-                Player player4 = new Player(serverSocket.accept(), gameState, '4');
-
-                gameState.currentPlayerNum = player0.playerNumber;
-                player0.start();
-
             }
-        }
-        finally {
-            serverSocket.close();
-        }
+            finally {
+                serverSocket.close();
+            }
 
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

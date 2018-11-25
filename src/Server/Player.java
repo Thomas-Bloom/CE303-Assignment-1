@@ -1,32 +1,31 @@
 package Server;
 
-import assignment.Coordinates;
-import assignment.GameState;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Player extends Thread{
-    public char playerNumber;
-    Socket socket;
-    BufferedReader input;
-    PrintWriter output;
-    GameState gameState;
+// This is an extension to the server/Gamestate classes
 
-    public Player(Socket socket, GameState gameState, char num){
+public class Player extends Thread{
+    private char playerNumber;
+    private Socket socket;
+    // Input = Commands coming in from clients
+    private BufferedReader input;
+    // Output = Commands going out to the clients
+    private PrintWriter output;
+
+    public Player(Socket socket, char num){
         this.socket = socket;
-        this.playerNumber = num;
-        this.gameState = gameState;
+        playerNumber = num;
 
         try{
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
 
-            output.println("WELCOME " + num);
-            output.println("Waiting for more players...");
+            output.println("WELCOME " + playerNumber);
+            output.println("MESSAGE Waiting for more players");
         }
         catch(IOException e){
             e.printStackTrace();
@@ -35,30 +34,23 @@ public class Player extends Thread{
 
     public void run(){
         try{
-            output.println("MESSAGE All players connected... Game starting");
+            output.println("MESSAGE Enough players connected");
 
             if(playerNumber == 0){
-                output.println("You go first");
+                output.println("MESSAGE You go first");
             }
 
             while(true){
+                // Get the incoming command from the client
                 String command = input.readLine();
-                if(command.startsWith("MOVE")){
-                    int locationX = Integer.parseInt(command.substring(5));
-                    int locationY = Integer.parseInt(command.substring(6));
 
-                    Coordinates coord = new Coordinates(locationX, locationY);
-                    if(gameState.isMoveAllowed(coord, this)){
-                        output.println("VALID");
-                        System.out.println("Valid");
-                    }
-                    else{
-                        output.println("MESSAGE ");
-                    }
+                // Client issued a move command
+                if(command.startsWith("MOVE")){
+                    System.out.println("Player Moved");
                 }
             }
         }
-        catch(Exception e){
+        catch (IOException e){
             e.printStackTrace();
         }
         finally {

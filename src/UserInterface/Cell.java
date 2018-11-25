@@ -1,30 +1,40 @@
 package UserInterface;
 
+import Utilities.Coordinate;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Cell extends JPanel {
     public static final int CELL_SIZE = 2;
 
-    private Color color;
-    public int cellValue;
-    private int xPos, yPos;
+    private Color cellColor;
+    private Coordinate coord;
 
     public Cell(int x, int y){
-        cellValue = 0;
-        xPos = x;
-        yPos = y;
+        coord = new Coordinate(0,0);
+        // Set position
+        coord.setxPos(x);
+        coord.setyPos(y);
+
+        // Set appearance
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.black));
-        setBackground(color);
+        cellColor = Color.WHITE;
+        setBackground(cellColor);
         setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
     }
 
-    public int getxPos(){return xPos;}
-    public int getyPos(){return yPos;}
+    public void setCellColor(Color color) {
+        this.cellColor = color;
+        setBackground(cellColor);
+    }
 
-    public void setxPos(int x){xPos = x;}
-    public void setyPos(int y){yPos = y;}
+    public int getXPos(){
+        return coord.getxPos();
+    }
 
-    public void setColor(Color color){setBackground(color);}
+    public int getYPos(){
+        return coord.getyPos();
+    }
 }

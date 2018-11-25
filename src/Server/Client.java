@@ -1,55 +1,55 @@
 package Server;
 
-import UserInterface.LevelGrid;
+import UserInterface.Cell;
 import UserInterface.Window;
-import assignment.GameState;
-import javafx.scene.paint.Color;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
+    private Window window;
+    private Cell[][] cellBoard = new Cell[6][10];
+
     private Socket socket;
     private BufferedReader input;
     private PrintWriter output;
+    private final int PORT = 17000;
 
-    private Color currentColor;
+    public Client(){
+        try{
+            socket = new Socket("localhost", PORT);
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
 
-    private Window window = new Window("CE303 Assignment", 6, 10);
-
-    public Client() throws Exception{
-        socket = new Socket("localhost", 16000);
-
-        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        output = new PrintWriter(socket.getOutputStream(), true);
+        window = new Window("CE303 Assignment", 6, 10, input, output);
     }
 
-    public void play() throws Exception{
+    public void play(){
+        // Response from server
         String response;
+
         try{
             response = input.readLine();
 
             if(response.startsWith("WELCOME")){
-                char num = response.charAt(8);
-                window.setTitle("CE303 Assignment: Player(" + num + ")");
-                window.levelGrid.currentPlayerNum = num;
-            }
-
-            while(true){
-                response = input.readLine();
-                if(response.startsWith("VALID")){
-
-                }
+                char playerNum = response.charAt(8);
+                System.out.println("Player " + playerNum + " has connected");
+                window.setTitle("CE303 Assignment: Player " + playerNum);
             }
         }
-        finally {
-            socket.close();
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         Client client = new Client();
         client.play();
     }
