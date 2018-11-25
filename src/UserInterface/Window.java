@@ -16,13 +16,15 @@ public class Window extends JFrame {
     private Cell currentCell;
     private BufferedReader input;
     private PrintWriter output;
+    private char playerNum;
 
-    public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output){
+    public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output, char playerNum){
         super(title);
 
         cellBoard = new Cell[rows][columns];
         this.input = input;
         this.output = output;
+        this.playerNum = playerNum;
 
         // Add panels to the window
         add(new GridPanel(rows, columns, cellBoard), BorderLayout.CENTER);
@@ -43,7 +45,7 @@ public class Window extends JFrame {
 
             for(int x = 0; x < rows; x++){
                 for(int y = 0; y < columns; y++){
-                    final Cell cell = new Cell(x, y);
+                    final Cell cell = new Cell(x, y, playerNum);
                     add(cell);
                     board[x][y] = cell;
 
@@ -53,6 +55,7 @@ public class Window extends JFrame {
                             cell.setCellColor(Color.red);
                             currentCell = cell;
                             output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
+                            output.println("QUIT");
                         }
                     });
                     add(board[x][y]);

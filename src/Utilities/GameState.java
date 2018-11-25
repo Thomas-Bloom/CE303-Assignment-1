@@ -13,11 +13,12 @@ public class GameState {
     public static final int COLUMNS = 10;
 
     // This is the board the server sees
-    private Cell[][] board = new Cell[ROWS][COLUMNS];
+    public Cell[][] board;
 
     private int currentPlayerNumber;
 
     public GameState(){
+         board = new Cell[ROWS][COLUMNS];
         currentPlayerNumber = 0;
     }
 

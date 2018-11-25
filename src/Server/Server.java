@@ -19,12 +19,12 @@ public class Server {
 
                     // Create the player objects
                     // If a client is present then a new player object is created, otherwise null
-                    Player player0 = new Player(serverSocket.accept(), '0');
-                    Player player1 = new Player(serverSocket.accept(), '1');
+                    Player player0 = new Player(serverSocket.accept(), '0', gameState.board);
+                    Player player1 = new Player(serverSocket.accept(), '1', gameState.board);
 
                     // Start all the player threads (won't start if they are null)
-                    gameState.incrementPlayerNum();
                     player0.start();
+                    player1.start();
 
                 }
             }

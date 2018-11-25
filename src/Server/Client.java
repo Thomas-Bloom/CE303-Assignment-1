@@ -27,8 +27,6 @@ public class Client {
         catch (IOException e){
             e.printStackTrace();
         }
-
-        window = new Window("CE303 Assignment", 6, 10, input, output);
     }
 
     public void play(){
@@ -41,6 +39,7 @@ public class Client {
             if(response.startsWith("WELCOME")){
                 char playerNum = response.charAt(8);
                 System.out.println("Player " + playerNum + " has connected");
+                window = new Window("CE303 Assignment", 6, 10, input, output, playerNum);
                 window.setTitle("CE303 Assignment: Player " + playerNum);
             }
         }

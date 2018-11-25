@@ -10,8 +10,10 @@ public class Cell extends JPanel {
 
     private Color cellColor;
     private Coordinate coord;
+    private char playerNum;
 
-    public Cell(int x, int y){
+    public Cell(int x, int y, char playerNum){
+        this.playerNum = playerNum;
         coord = new Coordinate(0,0);
         // Set position
         coord.setxPos(x);
