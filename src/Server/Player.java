@@ -2,6 +2,7 @@ package Server;
 
 import UserInterface.Cell;
 import Utilities.Coordinate;
+import Utilities.GameState;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -20,9 +21,11 @@ public class Player extends Thread{
     // Output = Commands going out to the clients
     private PrintWriter output;
     private Cell[][] board;
+    private Player currentPlayer;
 
     public Player(Socket socket, char num, Cell[][] board){
         this.socket = socket;
+        this.currentPlayer = currentPlayer;
         this.board = board;
         playerNumber = num;
 
@@ -39,7 +42,11 @@ public class Player extends Thread{
     }
 
     public synchronized boolean isMoveLegal(Coordinate coord){
-        System.out.println("Test: " + playerNumber);
+        // TODO: Make checks to ensure player is allowed to place on that cell
+        System.out.println("Player(" + playerNumber + ") Moved: " + coord.getxPos() + ", " + coord.getyPos());
+        Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+        board[coord.getxPos()][coord.getyPos()] = newCell;
+
         return true;
     }
 
@@ -47,7 +54,7 @@ public class Player extends Thread{
         try{
             output.println("MESSAGE Enough players connected");
 
-            if(playerNumber == 0){
+            if(playerNumber == '0'){
                 output.println("MESSAGE You go first");
             }
 
@@ -59,10 +66,16 @@ public class Player extends Thread{
                 if(command.startsWith("MOVE")){
                     int xPos = Character.getNumericValue(command.charAt(5));
                     int yPos = Character.getNumericValue(command.charAt(6));
-                    System.out.println("Player(" + playerNumber + ") Moved: " + xPos + ", " + yPos);
-                    Cell newCell = new Cell(xPos, yPos, playerNumber);
-                    newCell.setCellColor(Color.red);
-                    board[xPos][yPos] = newCell;
+
+                    // If the move is accepted, send out the message to all players
+                    if(isMoveLegal(new Coordinate(xPos, yPos))){
+                        output.println("LEGAL " + xPos + yPos + " " + playerNumber);
+                        board[xPos][yPos].setCellColor(Color.red);
+                    }
+                }
+
+                if(command.startsWith("UPDATE")){
+                    System.out.println("Player " + playerNumber + " Got message");
                 }
 
                 if(command.startsWith("QUIT")){
@@ -82,5 +95,9 @@ public class Player extends Thread{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setPlayerNumber(char playerNumber) {
+        this.playerNumber = playerNumber;
     }
 }

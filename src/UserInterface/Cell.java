@@ -30,8 +30,8 @@ public class Cell extends JPanel {
     public void setCellColor(Color color) {
         this.cellColor = color;
         setBackground(cellColor);
+        repaint();
     }
-
     public int getXPos(){
         return coord.getxPos();
     }

@@ -3,6 +3,7 @@ package Server;
 import UserInterface.Cell;
 import UserInterface.Window;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,7 +36,6 @@ public class Client {
 
         try{
             response = input.readLine();
-
             if(response.startsWith("WELCOME")){
                 char playerNum = response.charAt(8);
                 System.out.println("Player " + playerNum + " has connected");
@@ -46,6 +46,33 @@ public class Client {
         catch (IOException e){
             e.printStackTrace();
         }
+
+        while(true){
+            try{
+                response = input.readLine();
+
+                if(response.startsWith("LEGAL")){
+                    int xPos = Character.getNumericValue(response.charAt(6));
+                    int yPos = Character.getNumericValue(response.charAt(7));
+
+                    System.out.println("Position (" + xPos + ", " + yPos + ") is legal");
+                    //cellBoard[xPos][yPos] = new Cell(xPos, yPos, playerNum);
+                    //cellBoard[xPos][yPos].setCellColor(Color.red);
+                    window.cellBoard[xPos][yPos].setCellColor(Color.red);
+
+                    output.println("UPDATE " + xPos + yPos);
+                }
+
+                if(response.startsWith("ENEMY_MOVED")){
+                    System.out.println("Received message from enemy");
+
+                }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public static void main(String[] args) {

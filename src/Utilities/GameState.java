@@ -1,5 +1,6 @@
 package Utilities;
 
+import Server.Player;
 import UserInterface.Cell;
 
 import java.io.BufferedReader;
@@ -15,14 +16,7 @@ public class GameState {
     // This is the board the server sees
     public Cell[][] board;
 
-    private int currentPlayerNumber;
-
     public GameState(){
-         board = new Cell[ROWS][COLUMNS];
-        currentPlayerNumber = 0;
-    }
-
-    public void incrementPlayerNum(){
-        currentPlayerNumber++;
+         board = new Cell[COLUMNS][ROWS];
     }
 }

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -12,7 +13,7 @@ public class Window extends JFrame {
     public static final int WIDTH = 500;
     public static final int HEIGHT = (int)(WIDTH * 0.6);
 
-    private Cell[][] cellBoard;
+    public Cell[][] cellBoard;
     private Cell currentCell;
     private BufferedReader input;
     private PrintWriter output;
@@ -21,7 +22,7 @@ public class Window extends JFrame {
     public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output, char playerNum){
         super(title);
 
-        cellBoard = new Cell[rows][columns];
+        cellBoard = new Cell[columns][rows];
         this.input = input;
         this.output = output;
         this.playerNum = playerNum;
@@ -43,8 +44,8 @@ public class Window extends JFrame {
             setPreferredSize(new Dimension(300, 300));
             setLayout(new GridLayout(rows, columns));
 
-            for(int x = 0; x < rows; x++){
-                for(int y = 0; y < columns; y++){
+            for(int x = 0; x < columns; x++){
+                for(int y = 0; y < rows; y++){
                     final Cell cell = new Cell(x, y, playerNum);
                     add(cell);
                     board[x][y] = cell;
@@ -52,10 +53,9 @@ public class Window extends JFrame {
                     board[x][y].addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            cell.setCellColor(Color.red);
+                            //cell.setCellColor(Color.red);
                             currentCell = cell;
                             output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
-                            output.println("QUIT");
                         }
                     });
                     add(board[x][y]);
