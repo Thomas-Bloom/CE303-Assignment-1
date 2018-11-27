@@ -15,6 +15,7 @@ public class Client {
     private BufferedReader input;
     private PrintWriter output;
     private final int PORT = 17000;
+    private char playerNum;
 
     public Client(){
         try{
@@ -34,7 +35,7 @@ public class Client {
         try{
             response = input.readLine();
             if(response.startsWith("WELCOME")){
-                char playerNum = response.charAt(8);
+                playerNum = response.charAt(8);
                 System.out.println("Player " + playerNum + " has connected");
                 window = new Window("CE303 Assignment", 6, 10, input, output, playerNum);
                 window.setTitle("CE303 Assignment: Player " + playerNum);
@@ -60,6 +61,7 @@ public class Client {
                     //cellBoard[xPos][yPos].setCellColor(Color.red);
                     //System.out.println("xpos: " + xPos + ", yPos: " + yPos);
                     window.cellBoard[xPos][yPos].setCellColor(Color.red);
+                    //System.out.println(playerNum + " received message");
                 }
             }
             catch (IOException e){

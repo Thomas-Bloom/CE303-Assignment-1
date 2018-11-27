@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Window extends JFrame {
-    public static final int WIDTH = 500;
+    public static final int WIDTH = 720;
     public static final int HEIGHT = (int)(WIDTH * 0.6);
 
     public Cell[][] cellBoard;
@@ -18,10 +18,12 @@ public class Window extends JFrame {
     private BufferedReader input;
     private PrintWriter output;
     private char playerNum;
+    private int numPlayersInt;
 
     public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output, char playerNum){
         super(title);
 
+        numPlayersInt = 0;
         cellBoard = new Cell[rows][columns];
         this.input = input;
         this.output = output;
@@ -71,32 +73,38 @@ public class Window extends JFrame {
             }
         }
     }
-}
+    class CardPanel extends JPanel {
+        public CardPanel() {
+            add(new JLabel("Select a card: "));
+            // Create button objects
+            JRadioButton noneButton = new JRadioButton("None");
+            JRadioButton doubleButton = new JRadioButton("Double");
+            JRadioButton freedomButton = new JRadioButton("Freedom");
+            JRadioButton replacementButton = new JRadioButton("Replacement");
 
+            // Add the buttons to the panel
+            add(noneButton);
+            add(doubleButton);
+            add(freedomButton);
+            add(replacementButton);
 
-class CardPanel extends JPanel{
-    public CardPanel(){
-        add(new JLabel("Select a card: "));
-        // Create button objects
-        JRadioButton noneButton = new JRadioButton("None");
-        JRadioButton doubleButton = new JRadioButton("Double");
-        JRadioButton freedomButton = new JRadioButton("Freedom");
-        JRadioButton replacementButton = new JRadioButton("Replacement");
+            // Make the none button the first one that is selected
+            noneButton.setSelected(true);
 
-        // Add the buttons to the panel
-        add(noneButton);
-        add(doubleButton);
-        add(freedomButton);
-        add(replacementButton);
+            // Group the buttons together so that only one button may be active at a time
+            ButtonGroup cardButtonGroup = new ButtonGroup();
+            cardButtonGroup.add(noneButton);
+            cardButtonGroup.add(doubleButton);
+            cardButtonGroup.add(freedomButton);
+            cardButtonGroup.add(replacementButton);
 
-        // Make the none button the first one that is selected
-        noneButton.setSelected(true);
+            add(new JLabel("Number of Players:"));
+            JTextField numPlayersTextField = new JTextField(numPlayersInt + "");
+            numPlayersTextField.setEditable(false);
+            numPlayersTextField.setPreferredSize(new Dimension(20, 20));
 
-        // Group the buttons together so that only one button may be active at a time
-        ButtonGroup cardButtonGroup = new ButtonGroup();
-        cardButtonGroup.add(noneButton);
-        cardButtonGroup.add(doubleButton);
-        cardButtonGroup.add(freedomButton);
-        cardButtonGroup.add(replacementButton);
+            add(numPlayersTextField);
+        }
     }
 }
+

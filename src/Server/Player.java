@@ -55,6 +55,7 @@ public class Player extends Thread{
         if(message.startsWith("LEGAL")){
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));
+            System.out.println("message from player" + playerNumber);
             output.println("LEGAL " + xPos + yPos + " " + playerNumber);
         }
     }
