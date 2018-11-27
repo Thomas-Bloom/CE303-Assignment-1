@@ -39,4 +39,12 @@ public class Cell extends JPanel {
     public int getYPos(){
         return coord.getyPos();
     }
+
+    public char getPlayerNum() {
+        return playerNum;
+    }
+
+    public void setPlayerNum(char playerNum) {
+        this.playerNum = playerNum;
+    }
 }

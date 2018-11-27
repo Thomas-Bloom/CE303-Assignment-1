@@ -1,8 +1,6 @@
 package Server;
 
-import UserInterface.Cell;
 import UserInterface.Window;
-
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +10,6 @@ import java.net.Socket;
 
 public class Client {
     private Window window;
-    private Cell[][] cellBoard = new Cell[6][10];
 
     private Socket socket;
     private BufferedReader input;
@@ -41,6 +38,10 @@ public class Client {
                 System.out.println("Player " + playerNum + " has connected");
                 window = new Window("CE303 Assignment", 6, 10, input, output, playerNum);
                 window.setTitle("CE303 Assignment: Player " + playerNum);
+
+                // This is where certain cells can be changed based on information sent from the server
+                // E.g. this sets the first cell to be blue
+                //window.cellBoard[0][0].setCellColor(Color.blue);
             }
         }
         catch (IOException e){
@@ -55,17 +56,10 @@ public class Client {
                     int xPos = Character.getNumericValue(response.charAt(6));
                     int yPos = Character.getNumericValue(response.charAt(7));
 
-                    System.out.println("Position (" + xPos + ", " + yPos + ") is legal");
                     //cellBoard[xPos][yPos] = new Cell(xPos, yPos, playerNum);
                     //cellBoard[xPos][yPos].setCellColor(Color.red);
+                    //System.out.println("xpos: " + xPos + ", yPos: " + yPos);
                     window.cellBoard[xPos][yPos].setCellColor(Color.red);
-
-                    output.println("UPDATE " + xPos + yPos);
-                }
-
-                if(response.startsWith("ENEMY_MOVED")){
-                    System.out.println("Received message from enemy");
-
                 }
             }
             catch (IOException e){

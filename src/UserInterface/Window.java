@@ -22,7 +22,7 @@ public class Window extends JFrame {
     public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output, char playerNum){
         super(title);
 
-        cellBoard = new Cell[columns][rows];
+        cellBoard = new Cell[rows][columns];
         this.input = input;
         this.output = output;
         this.playerNum = playerNum;
@@ -44,18 +44,26 @@ public class Window extends JFrame {
             setPreferredSize(new Dimension(300, 300));
             setLayout(new GridLayout(rows, columns));
 
-            for(int x = 0; x < columns; x++){
-                for(int y = 0; y < rows; y++){
-                    final Cell cell = new Cell(x, y, playerNum);
+            for(int x = 0; x < rows; x++){
+                for(int y = 0; y < columns; y++){
+                    final Cell cell = new Cell(x, y, 'n');
                     add(cell);
+                    JLabel playerOwnedLabel = new JLabel("" + 'n');
+                    JLabel coordLabel = new JLabel("(" + x + ", " + y + ")");
                     board[x][y] = cell;
+
+                    board[x][y].add(playerOwnedLabel);
+                    board[x][y].add(coordLabel);
 
                     board[x][y].addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            //cell.setCellColor(Color.red);
                             currentCell = cell;
+                            cell.setPlayerNum(playerNum);
+                            playerOwnedLabel.setText(playerNum + "");
                             output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
+                            System.out.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
+                            currentCell.setCellColor(Color.red);
                         }
                     });
                     add(board[x][y]);

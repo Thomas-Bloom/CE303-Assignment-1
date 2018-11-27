@@ -20,13 +20,12 @@ public class Player extends Thread{
     private BufferedReader input;
     // Output = Commands going out to the clients
     private PrintWriter output;
-    private Cell[][] board;
-    private Player currentPlayer;
+    //private Cell[][] board;
+    private GameState gameState;
 
-    public Player(Socket socket, char num, Cell[][] board){
+    public Player(Socket socket, char num, GameState gameState){
         this.socket = socket;
-        this.currentPlayer = currentPlayer;
-        this.board = board;
+        this.gameState = gameState;
         playerNumber = num;
 
         try{
@@ -34,6 +33,7 @@ public class Player extends Thread{
             output = new PrintWriter(socket.getOutputStream(), true);
 
             output.println("WELCOME " + playerNumber);
+            System.out.println("Player(" + playerNumber + ") has connected");
             output.println("MESSAGE Waiting for more players");
         }
         catch(IOException e){
@@ -41,13 +41,22 @@ public class Player extends Thread{
         }
     }
 
-    public synchronized boolean isMoveLegal(Coordinate coord){
+    private synchronized boolean isMoveLegal(Coordinate coord){
         // TODO: Make checks to ensure player is allowed to place on that cell
         System.out.println("Player(" + playerNumber + ") Moved: " + coord.getxPos() + ", " + coord.getyPos());
         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
-        board[coord.getxPos()][coord.getyPos()] = newCell;
-
+        gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
         return true;
+    }
+
+    // This will send a message to the client
+    public void sendMessage(String message){
+        System.out.println(message);
+        if(message.startsWith("LEGAL")){
+            int xPos = Character.getNumericValue(message.charAt(6));
+            int yPos = Character.getNumericValue(message.charAt(7));
+            output.println("LEGAL " + xPos + yPos + " " + playerNumber);
+        }
     }
 
     public void run(){
@@ -59,6 +68,7 @@ public class Player extends Thread{
             }
 
             while(true){
+
                 // Get the incoming command from the client
                 String command = input.readLine();
 
@@ -69,13 +79,12 @@ public class Player extends Thread{
 
                     // If the move is accepted, send out the message to all players
                     if(isMoveLegal(new Coordinate(xPos, yPos))){
-                        output.println("LEGAL " + xPos + yPos + " " + playerNumber);
-                        board[xPos][yPos].setCellColor(Color.red);
+                        //server.setMessage("LEGAL " + xPos + yPos);
+                        gameState.setMessage("LEGAL " + xPos + yPos);
+                        //System.out.println("Message: " + server.message);
+                        //output.println("LEGAL " + xPos + yPos + " " + playerNumber);
+                        gameState.board[xPos][yPos].setPlayerNum(playerNumber);
                     }
-                }
-
-                if(command.startsWith("UPDATE")){
-                    System.out.println("Player " + playerNumber + " Got message");
                 }
 
                 if(command.startsWith("QUIT")){
