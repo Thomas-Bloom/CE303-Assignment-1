@@ -40,7 +40,7 @@ public class Server {
                 int randYPlayer1 = random.nextInt(10);
                 //blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1;
                 blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1 + "1";
-                
+
                 // Constantly look for commands coming in
                 while(true){
                     GameState gameState = new GameState();
@@ -66,8 +66,8 @@ public class Server {
                     // Sends messages to place starting cells
 
                     for(int i = 0; i < playerList.size(); i++){
-                        playerList.get(i).sendMessage(redStartPos);
-                        playerList.get(i).sendMessage(blueStartPos);
+                        playerList.get(i).sendMessage("LEGAL 08 0");
+                        playerList.get(i).sendMessage("LEGAL 06 1");
                     }
 
                     // Send all game messages

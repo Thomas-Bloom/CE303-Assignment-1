@@ -60,7 +60,8 @@ public class Player extends Thread{
         if(message.startsWith("LEGAL")){
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));
-            output.println("LEGAL " + xPos + yPos + " " + playerNumber);
+            char playerNum = message.charAt(9);
+            output.println("LEGAL " + xPos + yPos + " " + playerNum);
         }
     }
 
@@ -90,7 +91,7 @@ public class Player extends Thread{
                         gameState.nextPlayerTurn();
                         //System.out.println("Message: " + server.message);
                         //output.println("LEGAL " + xPos + yPos + " " + playerNumber);
-                        gameState.board[xPos][yPos].setPlayerNum(playerNumber);
+                        gameState.board[xPos][yPos].setPlayerNum(num);
                     }
                 }
 

@@ -53,15 +53,19 @@ public class Client {
                 response = input.readLine();
 
                 if(response.startsWith("LEGAL")){
+                    System.out.println(response);
                     int xPos = Character.getNumericValue(response.charAt(6));
                     int yPos = Character.getNumericValue(response.charAt(7));
                     char num = response.charAt(9);
 
-                    //cellBoard[xPos][yPos] = new Cell(xPos, yPos, playerNum);
-                    //cellBoard[xPos][yPos].setCellColor(Color.red);
-                    //System.out.println("xpos: " + xPos + ", yPos: " + yPos);
-                    window.cellBoard[xPos][yPos].setCellColor(Color.red);
                     window.cellBoard[xPos][yPos].setPlayerNum(num);
+
+                    if(window.cellBoard[xPos][yPos].getPlayerNum() == '0'){
+                        window.cellBoard[xPos][yPos].setCellColor(Color.red);
+                    }
+                    else{
+                        window.cellBoard[xPos][yPos].setCellColor(Color.blue);
+                    }
                     window.incrementCurrentTurn();
                 }
             }
