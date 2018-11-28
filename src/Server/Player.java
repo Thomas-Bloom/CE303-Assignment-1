@@ -139,8 +139,17 @@ public class Player extends Thread{
                         return true;
                     }
                 }
+                else{
+                    if(playerNumber == '0'){
+                        gameState.player0Blocked = true;
+                        output.println("END 1");
+                    }
+                    if(playerNumber == '1'){
+                        gameState.player1Blocked = true;
+                        output.println("END 0");
+                    }
+                }
                 return false;
-
             }
             else{
                 return false;
@@ -192,9 +201,6 @@ public class Player extends Thread{
                     }
                 }
 
-                if(command.startsWith("QUIT")){
-                    return;
-                }
 
             }
         }

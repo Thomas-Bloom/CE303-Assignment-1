@@ -5,6 +5,8 @@ import UserInterface.Cell;
 public class GameState {
     public final int ROWS = 6;
     public final int COLUMNS = 10;
+    public boolean player0Blocked = false;
+    public boolean player1Blocked = false;
     private String message;
     private int playerTurn;
 

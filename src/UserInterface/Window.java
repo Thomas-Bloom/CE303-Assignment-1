@@ -55,9 +55,6 @@ public class Window extends JFrame {
                         public void mouseClicked(MouseEvent e) {
                             currentCell = cell;
                             output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos() + " " + playerNum);
-                            //System.out.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
-                            //currentCell.setCellColor(Color.red);
-                            incrementCurrentTurn();
                         }
                     });
                     add(board[x][y]);
@@ -104,6 +101,17 @@ public class Window extends JFrame {
         currentTurn++;
         if(currentTurn == 2)
             currentTurn = 0;
+        System.out.println(currentTurn);
+    }
+
+    public void showEndScreen(char winner){
+        JFrame endFrame = new JFrame("GAME FINISHED");
+        endFrame.setPreferredSize(new Dimension(300, 180));
+        endFrame.setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+        JLabel winnerText = new JLabel("Player " + winner + " has won the game!");
+        endFrame.add(winnerText);
     }
 }
 

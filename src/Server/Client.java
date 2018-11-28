@@ -68,6 +68,11 @@ public class Client {
                     }
                     window.incrementCurrentTurn();
                 }
+
+                if(response.startsWith("END")){
+                    char playerWon = response.charAt(4);
+                    window.showEndScreen(playerWon);
+                }
             }
             catch (IOException e){
                 e.printStackTrace();
