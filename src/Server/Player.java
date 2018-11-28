@@ -56,7 +56,7 @@ public class Player extends Thread{
 
     // This will send a message to the client
     public void sendMessage(String message){
-        System.out.println(message);
+        System.out.println("Message: " + message);
         if(message.startsWith("LEGAL")){
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));

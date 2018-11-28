@@ -16,6 +16,13 @@ public class Server {
     public static final int PORT = 17000;
     private static List<Player>playerList = new ArrayList<Player>();
 
+    private static String redStartPos;
+    private static String blueStartPos;
+
+    public Server(){
+        //placePlayerStarts();
+    }
+
     public static void main(String[] args) {
         try{
 
@@ -23,6 +30,17 @@ public class Server {
             System.out.println("Server is now running");
 
             try{
+                Random random = new Random();
+                int randXPlayer0 = random.nextInt(6);
+                int randYPlayer0 = random.nextInt(10);
+                //redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0;
+                redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0 + "0";
+
+                int randXPlayer1 = random.nextInt(6);
+                int randYPlayer1 = random.nextInt(10);
+                //blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1;
+                blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1 + "1";
+                
                 // Constantly look for commands coming in
                 while(true){
                     GameState gameState = new GameState();
@@ -45,7 +63,14 @@ public class Server {
                     player1.start();
                     //player2.start();
 
+                    // Sends messages to place starting cells
 
+                    for(int i = 0; i < playerList.size(); i++){
+                        playerList.get(i).sendMessage(redStartPos);
+                        playerList.get(i).sendMessage(blueStartPos);
+                    }
+
+                    // Send all game messages
                     for(int i = 0; i < playerList.size(); i++){
                         playerList.get(i).sendMessage(gameState.getMessage());
 
@@ -68,20 +93,20 @@ public class Server {
         }
     }
 
-    public void placePlayerStarts(GameState gameState){
+    public void placePlayerStarts(){
         Random random = new Random();
-        int randXPlayer0 = random.nextInt(gameState.ROWS);
-        int randYPlayer0 = random.nextInt(gameState.COLUMNS);
-        Cell randPlayer0 = new Cell(randXPlayer0, randYPlayer0, '0');
-        randPlayer0.setCellColor(Color.red);
+        int randXPlayer0 = random.nextInt(6);
+        int randYPlayer0 = random.nextInt(10);
+        //redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0;
+        redStartPos = "LEGAL 00 0";
 
-        int randXPlayer1 = random.nextInt(gameState.ROWS);
-        int randYPlayer1 = random.nextInt(gameState.COLUMNS);
-        Cell randPlayer1 = new Cell(randXPlayer1, randYPlayer1, '1');
-        randPlayer1.setCellColor(Color.blue);
+        int randXPlayer1 = random.nextInt(6);
+        int randYPlayer1 = random.nextInt(10);
+        //blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1;
+        blueStartPos = "LEGAL 01 1";
 
-        gameState.board[randXPlayer0][randYPlayer0] = randPlayer0;
-        gameState.board[randXPlayer1][randYPlayer1] = randPlayer1;
+        //gameState.board[randXPlayer0][randYPlayer0].setCellColor(Color.red);
+        //gameState.board[randXPlayer1][randYPlayer1].setCellColor(Color.blue);
 
         System.out.println("Starting RED at " + randXPlayer0 + ", " + randYPlayer0);
         System.out.println("Starting BLUE at " + randXPlayer1 + ", " + randYPlayer1);
