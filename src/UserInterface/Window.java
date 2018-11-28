@@ -101,7 +101,6 @@ public class Window extends JFrame {
         currentTurn++;
         if(currentTurn == 2)
             currentTurn = 0;
-        System.out.println(currentTurn);
     }
 
     public void showEndScreen(char winner){

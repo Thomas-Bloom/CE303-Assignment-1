@@ -3,6 +3,7 @@ package Server;
 import UserInterface.Cell;
 import Utilities.GameState;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -24,8 +25,8 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        createFrame();
         try{
-
             ServerSocket serverSocket = new ServerSocket(PORT);
             System.out.println("Server is now running");
 
@@ -96,5 +97,19 @@ public class Server {
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private static void createFrame(){
+        JFrame frame = new JFrame("CE303 Server");
+        frame.setLocationRelativeTo(null);
+        frame.setPreferredSize(new Dimension(300, 100));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setResizable(false);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Server is now running"));
+        frame.add(panel);
+        frame.pack();
     }
 }
