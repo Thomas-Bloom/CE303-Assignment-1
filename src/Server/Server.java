@@ -1,10 +1,14 @@
 package Server;
 
+import UserInterface.Cell;
 import Utilities.GameState;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 // Make send method to send to all players
 
@@ -43,9 +47,6 @@ public class Server {
 
 
                     for(int i = 0; i < playerList.size(); i++){
-                        //playerList.get(i).sendMessage("LEGAL 06");
-                        //System.out.println("Test: " + i);
-                        System.out.println(i);
                         playerList.get(i).sendMessage(gameState.getMessage());
 
                         // Keep for loop going forever
@@ -65,5 +66,24 @@ public class Server {
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void placePlayerStarts(GameState gameState){
+        Random random = new Random();
+        int randXPlayer0 = random.nextInt(gameState.ROWS);
+        int randYPlayer0 = random.nextInt(gameState.COLUMNS);
+        Cell randPlayer0 = new Cell(randXPlayer0, randYPlayer0, '0');
+        randPlayer0.setCellColor(Color.red);
+
+        int randXPlayer1 = random.nextInt(gameState.ROWS);
+        int randYPlayer1 = random.nextInt(gameState.COLUMNS);
+        Cell randPlayer1 = new Cell(randXPlayer1, randYPlayer1, '1');
+        randPlayer1.setCellColor(Color.blue);
+
+        gameState.board[randXPlayer0][randYPlayer0] = randPlayer0;
+        gameState.board[randXPlayer1][randYPlayer1] = randPlayer1;
+
+        System.out.println("Starting RED at " + randXPlayer0 + ", " + randYPlayer0);
+        System.out.println("Starting BLUE at " + randXPlayer1 + ", " + randYPlayer1);
     }
 }

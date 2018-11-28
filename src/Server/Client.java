@@ -39,7 +39,6 @@ public class Client {
                 System.out.println("Player " + playerNum + " has connected");
                 window = new Window("CE303 Assignment", 6, 10, input, output, playerNum);
                 window.setTitle("CE303 Assignment: Player " + playerNum);
-
                 // This is where certain cells can be changed based on information sent from the server
                 // E.g. this sets the first cell to be blue
                 //window.cellBoard[0][0].setCellColor(Color.blue);
@@ -56,12 +55,14 @@ public class Client {
                 if(response.startsWith("LEGAL")){
                     int xPos = Character.getNumericValue(response.charAt(6));
                     int yPos = Character.getNumericValue(response.charAt(7));
+                    char num = response.charAt(9);
 
                     //cellBoard[xPos][yPos] = new Cell(xPos, yPos, playerNum);
                     //cellBoard[xPos][yPos].setCellColor(Color.red);
                     //System.out.println("xpos: " + xPos + ", yPos: " + yPos);
                     window.cellBoard[xPos][yPos].setCellColor(Color.red);
-                    //System.out.println(playerNum + " received message");
+                    window.cellBoard[xPos][yPos].setPlayerNum(num);
+                    window.incrementCurrentTurn();
                 }
             }
             catch (IOException e){

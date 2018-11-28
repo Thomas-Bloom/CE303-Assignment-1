@@ -43,10 +43,15 @@ public class Player extends Thread{
 
     private synchronized boolean isMoveLegal(Coordinate coord){
         // TODO: Make checks to ensure player is allowed to place on that cell
-        System.out.println("Player(" + playerNumber + ") Moved: " + coord.getxPos() + ", " + coord.getyPos());
-        Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
-        gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
-        return true;
+        if(Character.getNumericValue(playerNumber) == gameState.getPlayerTurn()){
+            System.out.println("Player(" + playerNumber + ") Moved: " + coord.getxPos() + ", " + coord.getyPos());
+            Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+            gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     // This will send a message to the client
@@ -55,7 +60,6 @@ public class Player extends Thread{
         if(message.startsWith("LEGAL")){
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));
-            System.out.println("message from player" + playerNumber);
             output.println("LEGAL " + xPos + yPos + " " + playerNumber);
         }
     }
@@ -77,11 +81,13 @@ public class Player extends Thread{
                 if(command.startsWith("MOVE")){
                     int xPos = Character.getNumericValue(command.charAt(5));
                     int yPos = Character.getNumericValue(command.charAt(6));
+                    char num = command.charAt(8);
 
                     // If the move is accepted, send out the message to all players
                     if(isMoveLegal(new Coordinate(xPos, yPos))){
                         //server.setMessage("LEGAL " + xPos + yPos);
-                        gameState.setMessage("LEGAL " + xPos + yPos);
+                        gameState.setMessage("LEGAL " + xPos + yPos + " " + num);
+                        gameState.nextPlayerTurn();
                         //System.out.println("Message: " + server.message);
                         //output.println("LEGAL " + xPos + yPos + " " + playerNumber);
                         gameState.board[xPos][yPos].setPlayerNum(playerNumber);

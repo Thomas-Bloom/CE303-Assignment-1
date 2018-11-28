@@ -18,12 +18,12 @@ public class Window extends JFrame {
     private BufferedReader input;
     private PrintWriter output;
     private char playerNum;
-    private int numPlayersInt;
+    private int currentTurn;
 
     public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output, char playerNum){
         super(title);
 
-        numPlayersInt = 0;
+        currentTurn = 0;
         cellBoard = new Cell[rows][columns];
         this.input = input;
         this.output = output;
@@ -50,22 +50,17 @@ public class Window extends JFrame {
                 for(int y = 0; y < columns; y++){
                     final Cell cell = new Cell(x, y, 'n');
                     add(cell);
-                    JLabel playerOwnedLabel = new JLabel("" + 'n');
-                    JLabel coordLabel = new JLabel("(" + x + ", " + y + ")");
                     board[x][y] = cell;
-
-                    board[x][y].add(playerOwnedLabel);
-                    board[x][y].add(coordLabel);
 
                     board[x][y].addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             currentCell = cell;
-                            cell.setPlayerNum(playerNum);
-                            playerOwnedLabel.setText(playerNum + "");
-                            output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
-                            System.out.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
-                            currentCell.setCellColor(Color.red);
+                            output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos() + " " + playerNum);
+                            //System.out.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
+                            //currentCell.setCellColor(Color.red);
+                            System.out.println("Test: " + currentCell.getPlayerNum());
+                            incrementCurrentTurn();
                         }
                     });
                     add(board[x][y]);
@@ -98,13 +93,20 @@ public class Window extends JFrame {
             cardButtonGroup.add(freedomButton);
             cardButtonGroup.add(replacementButton);
 
-            add(new JLabel("Number of Players:"));
-            JTextField numPlayersTextField = new JTextField(numPlayersInt + "");
-            numPlayersTextField.setEditable(false);
-            numPlayersTextField.setPreferredSize(new Dimension(20, 20));
+            add(new JLabel("Current Turn:"));
+            JTextField numCurrentTurnField = new JTextField(currentTurn + "");
+            numCurrentTurnField.setEditable(false);
+            numCurrentTurnField.setPreferredSize(new Dimension(20, 20));
 
-            add(numPlayersTextField);
+            add(numCurrentTurnField);
+
         }
+    }
+
+    public void incrementCurrentTurn(){
+        currentTurn++;
+        if(currentTurn == 2)
+            currentTurn = 0;
     }
 }
 
