@@ -16,9 +16,9 @@ public class GameState {
         board = new Cell[ROWS][COLUMNS];
         playerTurn = 0;
 
-        for(int x = 0; x < COLUMNS; x++){
-            for(int y = 0; y < ROWS; y++){
-
+        for(int x = 0; x < ROWS; x++){
+            for(int y = 0; y < COLUMNS; y++){
+                board[x][y] = new Cell(x, y, 'n');
             }
         }
     }

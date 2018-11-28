@@ -42,11 +42,23 @@ public class Player extends Thread{
 
     private synchronized boolean isMoveLegal(Coordinate coord){
         // TODO: Make checks to ensure player is allowed to place on that cell
+
+        // If it is the correct player's turn
         if(Character.getNumericValue(playerNumber) == gameState.getPlayerTurn()){
-            System.out.println("Player(" + playerNumber + ") Moved: " + coord.getxPos() + ", " + coord.getyPos());
-            Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
-            gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
-            return true;
+            //System.out.println("Player(" + playerNumber + ") Moved: " + coord.getxPos() + ", " + coord.getyPos());
+
+
+            // Check to make sure there isn't a cell already there
+            if(gameState.board[coord.getxPos()][coord.getyPos()].getPlayerNum() == 'n'){
+                Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+
+                gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                System.out.println("Placed");
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         else{
             return false;
@@ -55,7 +67,7 @@ public class Player extends Thread{
 
     // This will send a message to the client
     public void sendMessage(String message){
-        System.out.println("Message: " + message);
+        //System.out.println("Message: " + message);
         if(message.startsWith("LEGAL")){
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));
