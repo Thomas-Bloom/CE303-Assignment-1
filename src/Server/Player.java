@@ -50,11 +50,70 @@ public class Player extends Thread{
 
             // Check to make sure there isn't a cell already there
             if(gameState.board[coord.getxPos()][coord.getyPos()].getPlayerNum() == 'n'){
-                Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
 
-                gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
-                System.out.println("Placed");
-                return true;
+                // Check to see if next to or diagonal to a cell owned by the player
+
+                // TOP_CENTRE
+                if(gameState.board[coord.getxPos()][coord.getyPos()].getPlayerNum() == playerNumber){
+                    Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+
+                    gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                    System.out.println("Placed");
+                    return true;
+                }
+
+                // TOP_RIGHT
+                if(gameState.board[coord.getxPos() + 1][coord.getyPos() + 1].getPlayerNum() == playerNumber) {
+                        Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                        gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                        System.out.println("Placed");
+                        return true;
+                }
+                // CENTRE_RIGHT
+                if(gameState.board[coord.getxPos() + 1][coord.getyPos()].getPlayerNum() == playerNumber) {
+                        Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                        gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                        System.out.println("Placed");
+                        return true;
+
+                }
+                // BOTTOM_RIGHT
+                if(gameState.board[coord.getxPos() + 1][coord.getyPos() - 1].getPlayerNum() == playerNumber) {
+                        Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                        gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                        System.out.println("Placed");
+                        return true;
+                }
+                // CENTRE_BOTTOM
+                if(gameState.board[coord.getxPos()][coord.getyPos() - 1].getPlayerNum() == playerNumber){
+                    Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                    gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                    System.out.println("Placed");
+                    return true;
+                }
+                // BOTTOM LEFT
+                if(gameState.board[coord.getxPos() - 1][coord.getyPos() -1].getPlayerNum() == playerNumber){
+                    Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                    gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                    System.out.println("Placed");
+                    return true;
+                }
+                // CENTRE LEFT
+                if(gameState.board[coord.getxPos() - 1][coord.getyPos()].getPlayerNum() == playerNumber){
+                    Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                    gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                    System.out.println("Placed");
+                    return true;
+                }
+                // TOP LEFT
+                if(gameState.board[coord.getxPos() - 1][coord.getyPos() + 1].getPlayerNum() == playerNumber){
+                    Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
+                    gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
+                    System.out.println("Placed");
+                    return true;
+                }
+                return false;
+
             }
             else{
                 return false;

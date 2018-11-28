@@ -71,7 +71,9 @@ public class Server {
 
                     for(int i = 0; i < playerList.size(); i++){
                         playerList.get(i).sendMessage(redStartPos);
+                        gameState.board[randXPlayer0][randYPlayer0].setPlayerNum('0');
                         playerList.get(i).sendMessage(blueStartPos);
+                        gameState.board[randXPlayer1][randYPlayer1].setPlayerNum('1');
                     }
 
                     // Send all game messages
