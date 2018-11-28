@@ -33,13 +33,17 @@ public class Server {
                 Random random = new Random();
                 int randXPlayer0 = random.nextInt(6);
                 int randYPlayer0 = random.nextInt(10);
-                //redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0;
-                redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0 + "0";
 
                 int randXPlayer1 = random.nextInt(6);
                 int randYPlayer1 = random.nextInt(10);
-                //blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1;
-                blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1 + "1";
+
+                // Ensure they aren't on the same cells
+                if(randXPlayer0 == randXPlayer1 && randYPlayer0 == randYPlayer1){
+                    randXPlayer0 = random.nextInt(6);
+                    randYPlayer0 = random.nextInt(10);
+                }
+                redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0 + " " + "0";
+                blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1 + " " + "1";
 
                 // Constantly look for commands coming in
                 while(true){
@@ -66,8 +70,8 @@ public class Server {
                     // Sends messages to place starting cells
 
                     for(int i = 0; i < playerList.size(); i++){
-                        playerList.get(i).sendMessage("LEGAL 08 0");
-                        playerList.get(i).sendMessage("LEGAL 06 1");
+                        playerList.get(i).sendMessage(redStartPos);
+                        playerList.get(i).sendMessage(blueStartPos);
                     }
 
                     // Send all game messages
@@ -79,36 +83,14 @@ public class Server {
                             i = -1;
                         }
                     }
-
-
                 }
             }
             finally {
                 serverSocket.close();
             }
-
         }
         catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public void placePlayerStarts(){
-        Random random = new Random();
-        int randXPlayer0 = random.nextInt(6);
-        int randYPlayer0 = random.nextInt(10);
-        //redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0;
-        redStartPos = "LEGAL 00 0";
-
-        int randXPlayer1 = random.nextInt(6);
-        int randYPlayer1 = random.nextInt(10);
-        //blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1;
-        blueStartPos = "LEGAL 01 1";
-
-        //gameState.board[randXPlayer0][randYPlayer0].setCellColor(Color.red);
-        //gameState.board[randXPlayer1][randYPlayer1].setCellColor(Color.blue);
-
-        System.out.println("Starting RED at " + randXPlayer0 + ", " + randYPlayer0);
-        System.out.println("Starting BLUE at " + randXPlayer1 + ", " + randYPlayer1);
     }
 }

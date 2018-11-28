@@ -20,8 +20,6 @@ public class Cell extends JPanel {
         coord.setyPos(y);
 
         // Set appearance
-        JLabel playerNumText = new JLabel(playerNum + "");
-        add(playerNumText);
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.black));
         cellColor = Color.WHITE;

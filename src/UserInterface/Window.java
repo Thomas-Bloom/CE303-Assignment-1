@@ -5,9 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 public class Window extends JFrame {
     public static final int WIDTH = 720;
@@ -59,7 +57,6 @@ public class Window extends JFrame {
                             output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos() + " " + playerNum);
                             //System.out.println("MOVE " + currentCell.getXPos() + currentCell.getYPos());
                             //currentCell.setCellColor(Color.red);
-                            System.out.println("Test: " + currentCell.getPlayerNum());
                             incrementCurrentTurn();
                         }
                     });

@@ -20,7 +20,6 @@ public class Player extends Thread{
     private BufferedReader input;
     // Output = Commands going out to the clients
     private PrintWriter output;
-    //private Cell[][] board;
     private GameState gameState;
 
     public Player(Socket socket, char num, GameState gameState){
@@ -114,7 +113,7 @@ public class Player extends Thread{
         }
     }
 
-    public void setPlayerNumber(char playerNumber) {
-        this.playerNumber = playerNumber;
-    }
+    //public void setPlayerNumber(char playerNumber) {
+        //this.playerNumber = playerNumber;
+    //}
 }

@@ -1,9 +1,6 @@
 package Utilities;
 
-
 import UserInterface.Cell;
-import java.awt.*;
-import java.util.Random;
 
 public class GameState {
     public final int ROWS = 6;
