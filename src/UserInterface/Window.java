@@ -90,14 +90,14 @@ public class Window extends JFrame {
             });
 
             freedomButton.addActionListener(e ->{
-                card = '2';
+                card = '3';
                 System.out.println("Freedom button pressed");
                 remove(freedomButton);
                 revalidate();
             });
 
             replacementButton.addActionListener(e ->{
-                card = '3';
+                card = '2';
                 System.out.println("Replacement button pressed");
                 remove(replacementButton);
                 revalidate();

@@ -20,6 +20,7 @@ public class Player extends Thread{
     // Output = Commands going out to the clients
     private PrintWriter output;
     private GameState gameState;
+    private char card;
 
     public Player(Socket socket, char num, GameState gameState){
         this.socket = socket;
@@ -42,14 +43,14 @@ public class Player extends Thread{
     private synchronized boolean isMoveLegal(Coordinate coord){
         // If it is the correct player's turn
         if(Character.getNumericValue(playerNumber) == gameState.getPlayerTurn()){
-            
+
             // Check to make sure there isn't a cell already there
-            if(gameState.board[coord.getxPos()][coord.getyPos()].getPlayerNum() == 'n'){
+            if(gameState.board[coord.getxPos()][coord.getyPos()].getPlayerNum() == 'n' || card == '2'){
                 // Check to see if next to or diagonal to a cell owned by the player
 
                 // TOP_CENTRE
                 // -1 0
-                if((coord.getxPos() - 1) >= 0 && (coord.getxPos() -1) <= gameState.ROWS - 1 && coord.getyPos() >= 0 && coord.getyPos() <= gameState.COLUMNS - 1){
+                if((coord.getxPos() - 1) >= 0 && (coord.getxPos() -1) <= gameState.ROWS - 1 && coord.getyPos() >= 0 && coord.getyPos() <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos() - 1][coord.getyPos()].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -60,7 +61,7 @@ public class Player extends Thread{
 
                 // TOP_RIGHT
                 // -1 1
-                if((coord.getxPos() - 1) >= 0 && (coord.getxPos() -1) <= gameState.ROWS - 1 && (coord.getyPos() + 1) >= 0 && (coord.getyPos() + 1) <= gameState.COLUMNS - 1){
+                if((coord.getxPos() - 1) >= 0 && (coord.getxPos() -1) <= gameState.ROWS - 1 && (coord.getyPos() + 1) >= 0 && (coord.getyPos() + 1) <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos() - 1][coord.getyPos() + 1].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -70,7 +71,7 @@ public class Player extends Thread{
                 }
                 // CENTRE_RIGHT
                 // 0 1
-                if(coord.getxPos() >= 0 && coord.getxPos() <= gameState.ROWS - 1 && (coord.getyPos() + 1) >= 0 && (coord.getyPos() + 1) <= gameState.COLUMNS - 1){
+                if(coord.getxPos() >= 0 && coord.getxPos() <= gameState.ROWS - 1 && (coord.getyPos() + 1) >= 0 && (coord.getyPos() + 1) <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos()][coord.getyPos() + 1].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -81,7 +82,7 @@ public class Player extends Thread{
                 }
                 // BOTTOM_RIGHT
                 // 1 1
-                if((coord.getxPos() + 1) >= 0 && (coord.getxPos() + 1) <= gameState.ROWS - 1 && (coord.getyPos() + 1) >= 0 && (coord.getyPos() + 1) <= gameState.COLUMNS - 1){
+                if((coord.getxPos() + 1) >= 0 && (coord.getxPos() + 1) <= gameState.ROWS - 1 && (coord.getyPos() + 1) >= 0 && (coord.getyPos() + 1) <= gameState.COLUMNS - 1 || card == 3){
                     if(gameState.board[coord.getxPos() + 1][coord.getyPos() + 1].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -91,7 +92,7 @@ public class Player extends Thread{
                 }
                 // CENTRE_BOTTOM
                 // 1 0
-                if((coord.getxPos() + 1) >= 0 && (coord.getxPos() + 1) <= gameState.ROWS - 1 && coord.getyPos() >= 0 && coord.getyPos() <= gameState.COLUMNS - 1){
+                if((coord.getxPos() + 1) >= 0 && (coord.getxPos() + 1) <= gameState.ROWS - 1 && coord.getyPos() >= 0 && coord.getyPos() <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos() + 1][coord.getyPos()].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -101,7 +102,7 @@ public class Player extends Thread{
                 }
                 // BOTTOM LEFT
                 // 1 -1
-                if((coord.getxPos() + 1) >= 0 && (coord.getxPos() + 1) <= gameState.ROWS - 1 && (coord.getyPos() - 1) >= 0 && (coord.getyPos() - 1) <= gameState.COLUMNS - 1){
+                if((coord.getxPos() + 1) >= 0 && (coord.getxPos() + 1) <= gameState.ROWS - 1 && (coord.getyPos() - 1) >= 0 && (coord.getyPos() - 1) <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos() + 1][coord.getyPos() - 1].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -111,7 +112,7 @@ public class Player extends Thread{
                 }
                 // CENTRE LEFT
                 // 0 -1
-                if(coord.getxPos() >= 0 && coord.getxPos() <= gameState.ROWS - 1 && (coord.getyPos() - 1) >= 0 && (coord.getyPos() - 1) <= gameState.COLUMNS - 1){
+                if(coord.getxPos() >= 0 && coord.getxPos() <= gameState.ROWS - 1 && (coord.getyPos() - 1) >= 0 && (coord.getyPos() - 1) <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos()][coord.getyPos() - 1].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -121,7 +122,7 @@ public class Player extends Thread{
                 }
                 // TOP LEFT
                 // -1 -1
-                if((coord.getxPos() - 1) >= 0 && (coord.getxPos() -1) <= gameState.ROWS - 1 && (coord.getyPos() - 1) >= 0 && (coord.getyPos() - 1) <= gameState.COLUMNS - 1){
+                if((coord.getxPos() - 1) >= 0 && (coord.getxPos() -1) <= gameState.ROWS - 1 && (coord.getyPos() - 1) >= 0 && (coord.getyPos() - 1) <= gameState.COLUMNS - 1 || card == '3'){
                     if(gameState.board[coord.getxPos() - 1][coord.getyPos() - 1].getPlayerNum() == playerNumber) {
                         Cell newCell = new Cell(coord.getxPos(), coord.getyPos(), playerNumber);
                         gameState.board[coord.getxPos()][coord.getyPos()] = newCell;
@@ -153,12 +154,12 @@ public class Player extends Thread{
 
     // This will send a message to the client
     public void sendMessage(String message){
-        //System.out.println("Message: " + message);
         if(message.startsWith("LEGAL")){
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));
             char playerNum = message.charAt(9);
             char card = message.charAt(11);
+            this.card = card;
             output.println("LEGAL " + xPos + yPos + " " + playerNum + " " + card);
         }
     }
@@ -187,6 +188,7 @@ public class Player extends Thread{
                     // 2 = replacement
                     // 3 = freedom
                     char card = command.charAt(10);
+                    this.card = card;
 
                     // If the move is accepted, send out the message to all players
                     if(isMoveLegal(new Coordinate(xPos, yPos))){
