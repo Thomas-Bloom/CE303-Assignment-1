@@ -17,11 +17,13 @@ public class Window extends JFrame {
     private PrintWriter output;
     private char playerNum;
     private int currentTurn;
+    private char card;
 
     public Window(String title, int rows, int columns, BufferedReader input, PrintWriter output, char playerNum){
         super(title);
 
         currentTurn = 0;
+        card = '0';
         cellBoard = new Cell[rows][columns];
         this.input = input;
         this.output = output;
@@ -54,7 +56,8 @@ public class Window extends JFrame {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             currentCell = cell;
-                            output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos() + " " + playerNum);
+                            output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos() + " " + playerNum + " " + card);
+                            System.out.println("card: " + card);
                         }
                     });
                     add(board[x][y]);
@@ -70,6 +73,33 @@ public class Window extends JFrame {
             JRadioButton doubleButton = new JRadioButton("Double");
             JRadioButton freedomButton = new JRadioButton("Freedom");
             JRadioButton replacementButton = new JRadioButton("Replacement");
+
+            // Functionality for buttons
+            noneButton.addActionListener(e ->{
+                card = '0';
+                System.out.println("None button pressed");
+            });
+
+            doubleButton.addActionListener(e -> {
+                card = '1';
+                System.out.println("Double button pressed");
+                remove(doubleButton);
+                revalidate();
+            });
+
+            freedomButton.addActionListener(e ->{
+                card = '2';
+                System.out.println("Freedom button pressed");
+                remove(freedomButton);
+                revalidate();
+            });
+
+            replacementButton.addActionListener(e ->{
+                card = '3';
+                System.out.println("Replacement button pressed");
+                remove(replacementButton);
+                revalidate();
+            });
 
             // Add the buttons to the panel
             add(noneButton);
@@ -93,7 +123,6 @@ public class Window extends JFrame {
             numCurrentTurnField.setPreferredSize(new Dimension(20, 20));
 
             add(numCurrentTurnField);
-
         }
     }
 
@@ -111,6 +140,10 @@ public class Window extends JFrame {
         setResizable(false);
         JLabel winnerText = new JLabel("Player " + winner + " has won the game!");
         endFrame.add(winnerText);
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
     }
 }
 

@@ -1,8 +1,6 @@
 package Server;
 
-import UserInterface.Cell;
 import Utilities.GameState;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -19,10 +17,6 @@ public class Server {
 
     private static String redStartPos;
     private static String blueStartPos;
-
-    public Server(){
-        //placePlayerStarts();
-    }
 
     public static void main(String[] args) {
         createFrame();
@@ -43,8 +37,11 @@ public class Server {
                     randXPlayer0 = random.nextInt(6);
                     randYPlayer0 = random.nextInt(10);
                 }
-                redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0 + " " + "0";
-                blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1 + " " + "1";
+
+                // STRUCTURE OF MESSAGES
+                // "<MOVE_TYPE< <XY> <PLAYER_NUM> <CARD>
+                redStartPos = "LEGAL " + randXPlayer0 + randYPlayer0 + " " + "0" + " " + "0";
+                blueStartPos = "LEGAL " + randXPlayer1 + randYPlayer1 + " " + "1" + " " + "0";
 
                 // Constantly look for commands coming in
                 while(true){
@@ -52,24 +49,21 @@ public class Server {
 
                     // Create the player objects
                     // If a client is present then a new player object is created, otherwise null
+                    // Limited to only two players
                     Player player0 = new Player(serverSocket.accept(), '0', gameState);
                     Player player1 = new Player(serverSocket.accept(), '1', gameState);
-                    //Player player2 = new Player(serverSocket.accept(), '2', gameState);
 
                     // Add players to the list
                     // Show how many players are in game
                     // Send messages to players
                     playerList.add(player0);
                     playerList.add(player1);
-                    //playerList.add(player2);
 
                     // Start all the player threads (won't start if they are null)
                     player0.start();
                     player1.start();
-                    //player2.start();
 
                     // Sends messages to place starting cells
-
                     for(int i = 0; i < playerList.size(); i++){
                         playerList.get(i).sendMessage(redStartPos);
                         gameState.board[randXPlayer0][randYPlayer0].setPlayerNum('0');
@@ -86,8 +80,6 @@ public class Server {
                             i = -1;
                         }
                     }
-
-
                 }
             }
             finally {
