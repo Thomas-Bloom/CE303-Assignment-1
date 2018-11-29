@@ -58,6 +58,8 @@ public class Window extends JFrame {
                             currentCell = cell;
                             output.println("MOVE " + currentCell.getXPos() + currentCell.getYPos() + " " + playerNum + " " + card);
                             System.out.println("card: " + card);
+                            // Make sure to reset the card to none
+                            card = '0';
                         }
                     });
                     add(board[x][y]);

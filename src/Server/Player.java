@@ -42,7 +42,7 @@ public class Player extends Thread{
     private synchronized boolean isMoveLegal(Coordinate coord){
         // If it is the correct player's turn
         if(Character.getNumericValue(playerNumber) == gameState.getPlayerTurn()){
-
+            
             // Check to make sure there isn't a cell already there
             if(gameState.board[coord.getxPos()][coord.getyPos()].getPlayerNum() == 'n'){
                 // Check to see if next to or diagonal to a cell owned by the player
@@ -191,7 +191,8 @@ public class Player extends Thread{
                     // If the move is accepted, send out the message to all players
                     if(isMoveLegal(new Coordinate(xPos, yPos))){
                         gameState.setMessage("LEGAL " + xPos + yPos + " " + num + " " + card);
-                        gameState.nextPlayerTurn();
+                        if(card != '1')
+                            gameState.nextPlayerTurn();
                         gameState.board[xPos][yPos].setPlayerNum(num);
                     }
                 }
