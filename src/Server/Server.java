@@ -80,7 +80,7 @@ public class Server {
                     // Send all game messages
                     for(int i = 0; i < playerList.size(); i++){
                         playerList.get(i).sendMessage(gameState.getMessage());
-
+                        System.out.println(gameState.getMessage());
                         // Keep for loop going forever
                         if(i == playerList.size() - 1){
                             i = -1;

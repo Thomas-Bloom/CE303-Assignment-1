@@ -167,6 +167,7 @@ public class Player extends Thread{
             int xPos = Character.getNumericValue(message.charAt(6));
             int yPos = Character.getNumericValue(message.charAt(7));
             char playerNum = message.charAt(9);
+
             output.println("LEGAL " + xPos + yPos + " " + playerNum);
         }
     }
